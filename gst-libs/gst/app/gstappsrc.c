@@ -663,7 +663,7 @@ gst_app_src_dispose (GObject * obj)
 
   g_mutex_lock (&priv->mutex);
   if (priv->callbacks)
-    callbacks = g_steal_pointer (&priv->callbacks);
+    callbacks = priv->callbacks;
   gst_app_src_flush_queued (appsrc, FALSE);
   g_mutex_unlock (&priv->mutex);
 
@@ -2152,8 +2152,8 @@ gst_app_src_set_callbacks (GstAppSrc * appsrc,
   }
 
   g_mutex_lock (&priv->mutex);
-  old_callbacks = g_steal_pointer (&priv->callbacks);
-  priv->callbacks = g_steal_pointer (&new_callbacks);
+  old_callbacks = priv->callbacks;
+  priv->callbacks = new_callbacks;
   g_mutex_unlock (&priv->mutex);
 
   g_clear_pointer (&old_callbacks, callbacks_unref);

@@ -513,7 +513,7 @@ gst_app_sink_dispose (GObject * obj)
 
   g_mutex_lock (&priv->mutex);
   if (priv->callbacks)
-    callbacks = g_steal_pointer (&priv->callbacks);
+    callbacks = priv->callbacks;
   while ((queue_obj = gst_queue_array_pop_head (priv->queue)))
     gst_mini_object_unref (queue_obj);
   gst_buffer_replace (&priv->preroll_buffer, NULL);
@@ -1787,8 +1787,8 @@ gst_app_sink_set_callbacks (GstAppSink * appsink,
   }
 
   g_mutex_lock (&priv->mutex);
-  old_callbacks = g_steal_pointer (&priv->callbacks);
-  priv->callbacks = g_steal_pointer (&new_callbacks);
+  old_callbacks = priv->callbacks;
+  priv->callbacks = new_callbacks;
   g_mutex_unlock (&priv->mutex);
 
   g_clear_pointer (&old_callbacks, callbacks_unref);

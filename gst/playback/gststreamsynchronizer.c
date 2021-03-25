@@ -962,7 +962,7 @@ gst_stream_synchronizer_new_pad (GstStreamSynchronizer * sync)
 
   GST_STREAM_SYNCHRONIZER_LOCK (sync);
 
-  sync->streams = g_list_prepend (sync->streams, g_steal_pointer (&stream));
+  sync->streams = g_list_prepend (sync->streams, stream);
   sync->current_stream_number++;
 
   return GST_PAD_CAST (sinkpad);
